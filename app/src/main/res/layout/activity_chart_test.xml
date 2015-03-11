@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
+
+    <TextView android:text="@string/hello_world"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Entry"
+        android:id="@+id/mBtn"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="51dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mBtn">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart11"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart111"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="x"
+        android:id="@+id/xBtn"
+        android:layout_alignTop="@+id/mBtn"
+        android:layout_toEndOf="@+id/mBtn" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="y"
+        android:id="@+id/yBtn"
+        android:layout_alignTop="@+id/xBtn"
+        android:layout_toEndOf="@+id/xBtn" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="z"
+        android:id="@+id/zBtn"
+        android:layout_alignTop="@+id/yBtn"
+        android:layout_toEndOf="@+id/yBtn" />
+
+</RelativeLayout>
