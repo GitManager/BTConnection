@@ -4,9 +4,14 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.graphics.Color;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.widget.Switch;
+
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -21,6 +26,9 @@ public class BlueToothController {
     private BluetoothDevice bluetoothDevice;
     private static BluetoothSocket bluetoothSocket;
     private float x, y, z;
+    private Handler msgHandler;
+    private BTReadThread btReadThread;
+
 
     public BlueToothController(BluetoothAdapter Adapter) {
         bluetoothAdapter = Adapter;
@@ -31,8 +39,10 @@ public class BlueToothController {
         bluetoothDevice = bluetoothAdapter.getRemoteDevice(macAddr);
         bluetoothAdapter.cancelDiscovery();
         connectDevice();
-        BTReadThread btReadThread = new BTReadThread();
+        btReadThread = new BTReadThread();
         btReadThread.start();
+        Looper lp = Looper.myLooper();
+        msgHandler = new MsgHandler(lp);
 
     }
 
@@ -58,7 +68,7 @@ public class BlueToothController {
                         UUID dvcUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
                         bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(dvcUUID);
                         bluetoothSocket.connect();
-                        //System.out.println(bluetoothSocket.isConnected());
+                        System.out.println(bluetoothSocket.isConnected());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -83,26 +93,44 @@ public class BlueToothController {
             if (len > 0) {
                 byte[] tmp2 = tmp;
                 String str = new String(tmp2);
-                int[] index = new int[4];
+                int[] index = new int[5];
                 int num = 0;
-                for (int i = 0; i < str.length(); i++) {
+                int length = str.length();
+                for (int i = 0; i < length; i++) {
                     char chartmp = str.charAt(i);
-                    if (chartmp == ' ' || chartmp == '\n') {
+                    if (chartmp == ' ' || chartmp == '\n' || chartmp == '\r') {
                         index[num] = i;
                         num++;
+                        if (num > 3) break;
                     }
                 }
                 x = Float.parseFloat(str.substring(index[0], index[1]));
                 y = Float.parseFloat(str.substring(index[1], index[2]));
                 z = Float.parseFloat(str.substring(index[2], index[3]));
-                System.out.println(""+ x+" "+ y+" "+ z+"");
+                System.out.println("" + x + " " + y + " " + z + "");
+                //draw();
+                Message msg = Message.obtain();
+                msg.what = 0;
+                msgHandler.sendMessage(msg);
+
             }
         } catch (IOException e) {
         }
     }
 
-    public float getData(char type){
-        switch(type){
+    private void draw() {
+        MainActivity.mTime += 1;
+        float mData = getData('x');
+        float mData2 = getData('y');
+        float mData3 = getData('z');
+        System.out.println(mData + "......................................" + MainActivity.mTime);
+        CubicLineChart.addEntry(MainActivity.mChart, MainActivity.mTime, mData, "x-data", Color.rgb(0, 0, 255), ColorTemplate.getHoloBlue());
+        CubicLineChart.addEntry(MainActivity.mChart2, MainActivity.mTime, mData2, "y-data", Color.rgb(255, 0, 0), ColorTemplate.getHoloBlue());
+        CubicLineChart.addEntry(MainActivity.mChart3, MainActivity.mTime, mData3, "z-data", Color.rgb(0, 255, 0), ColorTemplate.getHoloBlue());
+    }
+
+    public float getData(char type) {
+        switch (type) {
             case 'x':
                 return x;
             case 'y':
@@ -131,13 +159,13 @@ public class BlueToothController {
     class BTReadThread extends Thread {
 
         public void run() {
-            try {
-                while (isConnected()) {
-                    receiveData();
+            while (isConnected()) {
+                receiveData();
+                try {
+                    Thread.sleep(50);
+                } catch (Exception e) {
+                    System.out.println(e);
                 }
-
-                Thread.sleep(50);
-            } catch (Exception e) {
 
             }
         }
@@ -146,14 +174,20 @@ public class BlueToothController {
     }
 
     class MsgHandler extends Handler {
-        /**
-         * Subclasses must implement this to receive messages.
-         *
-         * @param msg
-         */
+        public MsgHandler(Looper lp){
+            super(lp);
+        }
         @Override
         public void handleMessage(Message msg) {
-
+            switch (msg.what){
+                case 0 :
+                    draw();
+                    break;
+                case 1 :
+                    break;
+                default:
+                    break;
+            }
             super.handleMessage(msg);
         }
     }

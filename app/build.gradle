@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.just.btconnection"
-        minSdkVersion 19
+        minSdkVersion 18
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -19,7 +19,13 @@ android {
     }
 }
 
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.0.7'
 }

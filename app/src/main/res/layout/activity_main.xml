@@ -47,9 +47,37 @@
     <ListView
         android:id="@+id/deviceName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="200dp">
 
     </ListView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart11"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart111"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>
