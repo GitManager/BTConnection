@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">BTConnection</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="open_bt">打开蓝牙</string>
+    <string name="close_bt">关闭蓝牙</string>
+    <string name="seaching_device">搜索中</string>
+    <string name="seach_device">搜索设备</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_stacked_bar">StackedBarActivity</string>
+    <string name="title_activity_chart_base">ChartBase</string>
+    <string name="title_activity_test">TestActivity</string>
 </resources>
