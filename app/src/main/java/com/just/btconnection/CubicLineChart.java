@@ -106,7 +106,7 @@ public class CubicLineChart {
             //mChart.setVisibleYRange(200, YAxis.AxisDependency.LEFT);
 
             // move to the latest entry
-            mChart.moveViewToX(data.getXValCount()-21);
+            mChart.moveViewToX(data.getXValCount() - 21);
 
             // this automatically refreshes the chart (calls invalidate())
 //             mChart.moveViewTo(data.getXValCount()-7, 55f, AxisDependency.LEFT);
